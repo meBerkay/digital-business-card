@@ -78,7 +78,7 @@
 
 ### 1. Repository'yi Klonlayın
 ```bash
-git clone https://github.com/yourusername/digikart.git
+git clone https://github.com/meBerkay/digital-business-card.git
 cd digikart
 ```
 
