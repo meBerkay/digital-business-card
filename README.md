@@ -1,7 +1,7 @@
 # DigiKart 🚀
 
 <div align="center">
-  <img src="https://via.placeholder.com/200x200/3B82F6/FFFFFF?text=DigiKart" alt="DigiKart Logo" width="200"/>
+  <img src="[https://via.placeholder.com/200x200/3B82F6/FFFFFF?text=DigiKart](https://img.shields.io/badge/DigiKart-Card-FF6B35?style=for-the-badge)" alt="DigiKart Logo" width="200"/>
   
   <h3>Modern Dijital Kartvizit Platformu</h3>
   <p>Geleneksel kartvizitlerin dijital çağdaki karşılığı - Moneytolia ödeme entegrasyonu ile</p>
