@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String?
+  role          String    @default("user") // "user", "admin"
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // İlişkiler
+  cards         Card[]
+  orders        Order[]
+  subscription  Subscription?
+  
+  @@map("users")
+}
+
+model Card {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Kart bilgileri
+  name          String
+  title         String?
+  company       String?
+  email         String?
+  phone         String?
+  website       String?
+  address       String?
+  bio           String?
+  
+  // Sosyal medya
+  linkedin      String?
+  twitter       String?
+  instagram     String?
+  facebook      String?
+  
+  // Görsel
+  profileImage  String?
+  logoImage     String?
+  
+  // Tasarım
+  template      String    @default("modern") // "modern", "classic", "minimal"
+  primaryColor  String    @default("#3B82F6")
+  secondaryColor String   @default("#1F2937")
+  
+  // Durum
+  isActive      Boolean   @default(true)
+  isPublic      Boolean   @default(true)
+  slug          String    @unique
+  
+  // QR kod
+  qrCode        String?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // İlişkiler
+  orders        Order[]
+  
+  @@map("cards")
+}
+
+model Order {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cardId        String?
+  card          Card?     @relation(fields: [cardId], references: [id], onDelete: SetNull)
+  
+  // Sipariş bilgileri
+  orderNumber   String    @unique
+  status        String    @default("pending") // "pending", "processing", "completed", "cancelled"
+  
+  // Ürün bilgileri
+  productType   String    // "digital_card", "physical_card", "nfc_card"
+  quantity      Int       @default(1)
+  
+  // Fiyat bilgileri
+  unitPrice     Float
+  totalPrice    Float
+  currency      String    @default("TRY")
+  
+  // Ödeme bilgileri
+  paymentStatus String    @default("pending") // "pending", "paid", "failed", "refunded"
+  paymentMethod String?   // "paytr", "credit_card", "bank_transfer"
+  paymentId     String?   // PayTR transaction ID
+  
+  // Teslimat bilgileri (fiziksel kartlar için)
+  shippingAddress String?
+  trackingNumber  String?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@map("orders")
+}
+
+model Subscription {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan          String    // "free", "basic", "premium"
+  status        String    @default("active") // "active", "cancelled", "expired"
+  
+  // Özellikler
+  maxCards      Int       @default(1)
+  maxOrders     Int       @default(5)
+  hasAnalytics  Boolean   @default(false)
+  hasCustomDomain Boolean @default(false)
+  
+  // Tarihler
+  startDate     DateTime  @default(now())
+  endDate       DateTime?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@map("subscriptions")
+}
+
