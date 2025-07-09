@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: digikart_app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:./data/dev.db
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=your-secret-key-here
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+      - ./public/uploads:/app/public/uploads
+    networks:
+      - digikart_network
+    command: sh -c "npx prisma db push && node server.js"
+
+networks:
+  digikart_network:
+    driver: bridge
+
