@@ -310,9 +310,8 @@ npm run test:e2e
 ### Payment Testing
 Moneytolia test kartları:
 ```
-Kart No: 4508 0345 0803 4509
-CVV: 000
-Tarih: 12/26
+https://docs.moneytolia.com/docs/test-cards/46huxpzbhp1ss-test-cards
+
 ```
 
 ## 🚀 Deployment
